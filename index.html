@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102a43">
+  <title>Sibling Adventure</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #102a43; background: #f4f8fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+    main { width: min(100%, 560px); padding: 32px 24px; background: white; border-radius: 24px; box-shadow: 0 18px 60px rgba(16,42,67,.14); text-align: center; }
+    .animal { font-size: 72px; margin-bottom: 8px; }
+    h1 { margin: 0 0 12px; font-size: clamp(2rem, 8vw, 3.4rem); }
+    p { font-size: 1.1rem; line-height: 1.6; }
+    button { border: 0; border-radius: 999px; padding: 14px 24px; font: inherit; font-weight: 700; background: #102a43; color: white; cursor: pointer; }
+    .small { margin-top: 22px; opacity: .65; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="animal" id="animal">🎁</div>
+    <h1 id="title">A little adventure</h1>
+    <p id="copy">This is the online test version. The full seven-level game is being built here.</p>
+    <button id="start">Start</button>
+    <p class="small">Best viewed on a phone.</p>
+  </main>
+  <script>
+    const person = new URLSearchParams(location.search).get('person');
+    const profiles = {
+      hannah: { animal: '🐧', title: 'Hello Hannah!', copy: 'A penguin and a capybara have a little adventure waiting for you.' },
+      joe: { animal: '🐢', title: 'Hello Joe!', copy: 'A turtle has a little adventure waiting for you.' }
+    };
+    const profile = profiles[person];
+    if (profile) {
+      document.getElementById('animal').textContent = profile.animal;
+      document.getElementById('title').textContent = profile.title;
+      document.getElementById('copy').textContent = profile.copy;
+    }
+    document.getElementById('start').addEventListener('click', () => {
+      alert('The starter is live — the game levels are next!');
+    });
+  </script>
+</body>
+</html>
