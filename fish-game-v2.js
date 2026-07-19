@@ -1,0 +1,19 @@
+function fishGame(){
+  let x=50,score=0,running=true,items=[],dragging=false,holdTimer=null;
+  screen.innerHTML=`<div class="kicker">Puzzle 4</div><h2>Fish collector</h2><p>Press and hold the penguin, then drag left and right to catch 8 fish. Avoid the crabs!</p><div class="fish-game fish-game-v2" id="fishGame"><div class="fish-score" id="fishScore">🐟 0 / 8</div><div class="fish-hint" id="fishHint">Hold and drag ${p.hero}</div><div class="collector collector-v2" id="collector">${p.hero}</div></div><div class="fish-controls"><button class="secondary" id="left" aria-label="Move left">←</button><button class="secondary" id="right" aria-label="Move right">→</button></div><p class="small">Drag the penguin for smooth movement, or use the buttons.</p>`;
+  const area=document.querySelector('#fishGame'),collector=document.querySelector('#collector'),scoreEl=document.querySelector('#fishScore'),hint=document.querySelector('#fishHint');
+  area.style.height='500px';area.style.touchAction='none';collector.style.touchAction='none';collector.style.userSelect='none';collector.style.cursor='grab';
+  function drawPlayer(){collector.style.left=`calc(${x}% - 29px)`}
+  function setFromPointer(clientX){const rect=area.getBoundingClientRect();x=Math.max(7,Math.min(93,(clientX-rect.left)/rect.width*100));drawPlayer()}
+  function move(dx){x=Math.max(7,Math.min(93,x+dx));drawPlayer()}
+  function beginDrag(e){dragging=true;collector.style.cursor='grabbing';collector.setPointerCapture?.(e.pointerId);setFromPointer(e.clientX);hint.style.opacity='0'}
+  function drag(e){if(!dragging)return;e.preventDefault();setFromPointer(e.clientX)}
+  function endDrag(e){dragging=false;collector.style.cursor='grab';collector.releasePointerCapture?.(e.pointerId)}
+  collector.addEventListener('pointerdown',beginDrag);collector.addEventListener('pointermove',drag);collector.addEventListener('pointerup',endDrag);collector.addEventListener('pointercancel',endDrag);
+  area.addEventListener('pointermove',drag);area.addEventListener('pointerup',endDrag);area.addEventListener('pointercancel',endDrag);
+  ['left','right'].forEach(id=>{const b=document.querySelector('#'+id),d=id==='left'?-3.5:3.5;const stop=()=>{clearInterval(holdTimer);holdTimer=null};b.addEventListener('pointerdown',()=>{move(d);holdTimer=setInterval(()=>move(d),45)});b.addEventListener('pointerup',stop);b.addEventListener('pointerleave',stop);b.addEventListener('pointercancel',stop)});
+  function popAt(left,bad){const pop=document.createElement('div');pop.className='catch-pop';pop.textContent=bad?'💥':'😋';pop.style.left=left+'%';area.appendChild(pop);setTimeout(()=>pop.remove(),500)}
+  function spawn(){if(!running)return;const bad=Math.random()<.2,el=document.createElement('div');el.className='falling-item falling-item-v2';el.textContent=bad?'🦀':'🐟';el.dataset.bad=bad;const left=8+Math.random()*84;el.dataset.left=left;el.style.left=`${left}%`;el.style.top='58px';area.appendChild(el);items.push({el,y:58,left,bad});setTimeout(spawn,650+Math.random()*550)}
+  function tick(){if(!running)return;const rect=area.getBoundingClientRect();items.forEach(o=>{o.y+=2.55;o.el.style.top=o.y+'px';const nearX=Math.abs(o.left-x)<12.5;const hitY=o.y>rect.height-118&&o.y<rect.height-45;if(nearX&&hitY){if(o.bad){buzz(80);showToast('🦀 Oops — cheeky crab!');collector.classList.add('bumped');setTimeout(()=>collector.classList.remove('bumped'),260)}else{score++;buzz(30);scoreEl.textContent=`🐟 ${score} / 8`;collector.classList.add('chomp');setTimeout(()=>collector.classList.remove('chomp'),220)}popAt(o.left,o.bad);o.el.remove();o.done=true}else if(o.y>rect.height+10){o.el.remove();o.done=true}});items=items.filter(o=>!o.done);if(score>=8){running=false;setTimeout(()=>win('Finding another page in the photo album...','Fish Feast'),650);return}requestAnimationFrame(tick)}
+  drawPlayer();spawn();tick();
+}
