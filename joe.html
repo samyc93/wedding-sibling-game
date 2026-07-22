@@ -8,7 +8,17 @@
   <link rel="stylesheet" href="joe-style.css?v=1">
 </head>
 <body>
-  <main class="app">
+  <main class="app" aria-live="polite">
     <header class="topbar">
       <div id="player">Joe's Turtle Quest</div>
-      <
+      <div id="progress">Ready</div>
+    </header>
+    <div class="track" aria-hidden="true"><span id="bar"></span></div>
+    <section class="card" id="screen"></section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="joe-core.js?v=1"></script>
+  <script src="joe-levels-one.js?v=1"></script>
+  <script src="joe-levels-two.js?v=1"></script>
+</body>
+</html>
