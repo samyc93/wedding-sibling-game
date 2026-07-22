@@ -9,6 +9,13 @@
   <link rel="stylesheet" href="game-2026.css?v=6" />
   <link rel="stylesheet" href="game-polish-v2.css?v=3" />
   <link rel="stylesheet" href="joe-theme.css?v=1" />
+  <script>
+    const joeUrl = new URL(window.location.href);
+    if (joeUrl.searchParams.get('person') !== 'joe') {
+      joeUrl.searchParams.set('person', 'joe');
+      history.replaceState(null, '', joeUrl);
+    }
+  </script>
 </head>
 <body class="joe-theme">
   <main class="app" aria-live="polite">
@@ -23,5 +30,6 @@
   <script src="game-photo-v1.js?v=4"></script>
   <script src="photo-path-fix.js?v=1"></script>
   <script src="game-polish-v2.js?v=3"></script>
+  <script src="joe-content.js?v=1"></script>
 </body>
 </html>
