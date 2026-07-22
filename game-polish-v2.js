@@ -1,4 +1,33 @@
 (() => {
+  const who = (new URLSearchParams(location.search).get('person') || 'hannah').toLowerCase();
+  const finales = {
+    hannah: {
+      icons: ['🎉','✨','❤️','⭐','🎊','🐧'],
+      heroLine: '🎉 🐧 ❤️ 🐧 🎉',
+      title: 'Groomswoman unlocked!',
+      thankYou: 'Thank you, Hannah.',
+      relationship: 'You have always been an amazing sister.',
+      memoryOne: 'From family holidays and old photos...',
+      memoryTwo: 'to all the memories still to come...',
+      weddingLine: 'I honestly could not imagine our wedding day without you.',
+      achievements: ['Animal Spotter','Memory Master','Penguin Guide','Fish Collector'],
+      unlocked: 'Groomswoman Unlocked'
+    },
+    joe: {
+      icons: ['🎉','✨','❤️','🌊','🐚','🐢'],
+      heroLine: '🎉 🐢 ❤️ 🐢 🎉',
+      title: 'Best Man unlocked!',
+      thankYou: 'Thank you, Joe.',
+      relationship: 'You have always been an amazing brother.',
+      memoryOne: 'From family holidays and old photos...',
+      memoryTwo: 'to all the memories still to come...',
+      weddingLine: 'I honestly could not imagine our wedding day without you standing beside me.',
+      achievements: ['Beach Spotter','Memory Master','Turtle Navigator','Beachcomber'],
+      unlocked: 'Best Man Unlocked'
+    }
+  };
+  const finale = finales[who] || finales.hannah;
+
   const photoFiles = [
     'image1-portugal.jpg',
     'image2-france.jpg',
@@ -52,12 +81,11 @@
     const layer = document.createElement('div');
     layer.className = 'party-layer';
     document.body.appendChild(layer);
-    const pieces = ['🎉','✨','❤️','⭐','🎊','🐧'];
 
     for (let i = 0; i < 52; i++) {
       const piece = document.createElement('span');
       piece.className = 'party-piece';
-      piece.textContent = pieces[Math.floor(Math.random() * pieces.length)];
+      piece.textContent = finale.icons[Math.floor(Math.random() * finale.icons.length)];
       piece.style.left = `${Math.random() * 100}%`;
       piece.style.setProperty('--drift', `${(Math.random() - .5) * 180}px`);
       piece.style.setProperty('--spin', `${Math.random() * 720 - 360}deg`);
@@ -79,14 +107,14 @@
     thanks.innerHTML = `
       <div class="finale">
         <div class="finale-badge">ADVENTURE COMPLETE</div>
-        <div class="finale-icons">🎉 🐧 ❤️ 🐧 🎉</div>
-        <h2>Groomswoman unlocked!</h2>
+        <div class="finale-icons">${finale.heroLine}</div>
+        <h2>${finale.title}</h2>
         <div class="finale-copy">
-          <p style="--delay:.2s">Thank you, Hannah.</p>
-          <p style="--delay:.65s">You have always been an amazing sister.</p>
-          <p style="--delay:1.1s">From family holidays and old photos...</p>
-          <p style="--delay:1.55s">to all the memories still to come...</p>
-          <p style="--delay:2s">I honestly could not imagine our wedding day without you.</p>
+          <p style="--delay:.2s">${finale.thankYou}</p>
+          <p style="--delay:.65s">${finale.relationship}</p>
+          <p style="--delay:1.1s">${finale.memoryOne}</p>
+          <p style="--delay:1.55s">${finale.memoryTwo}</p>
+          <p style="--delay:2s">${finale.weddingLine}</p>
         </div>
         <div class="next-memory" style="--delay:2.45s">
           <span>Our next memory...</span>
@@ -95,11 +123,8 @@
         </div>
         <div class="achievement-card" style="--delay:2.9s">
           <h3>Mission results</h3>
-          <div>✅ Animal Spotter</div>
-          <div>✅ Memory Master</div>
-          <div>✅ Penguin Guide</div>
-          <div>✅ Fish Collector</div>
-          <div class="gold-achievement">🏆 Groomswoman Unlocked</div>
+          ${finale.achievements.map(item => `<div>✅ ${item}</div>`).join('')}
+          <div class="gold-achievement">🏆 ${finale.unlocked}</div>
         </div>
         <p class="signed" style="--delay:3.35s">Love, Sam ❤️</p>
         <button class="secondary play-again" style="--delay:3.7s">↻ Play again</button>
