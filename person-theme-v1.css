@@ -84,10 +84,16 @@ body.theme-joe .scratch::after {
   opacity: .58;
   font-size: .82rem;
   letter-spacing: .04em;
+  transition: opacity .25s ease;
 }
 
 body.theme-hannah .scratch::after { content: '❄️  WIPE AWAY THE SNOW  ❄️'; color: #315f7a; }
 body.theme-joe .scratch::after { content: '🌴  WIPE AWAY THE SAND  🐚'; color: #705124; }
+
+body.theme-hannah .scratch:has(+ #yes:not([hidden]))::after,
+body.theme-joe .scratch:has(+ #yes:not([hidden]))::after {
+  opacity: 0;
+}
 
 @media (max-width: 480px) {
   body.theme-hannah::after,
