@@ -14,15 +14,15 @@
       unlocked: 'Groomswoman Unlocked'
     },
     joe: {
-      icons: ['🎉','✨','❤️','🌊','🐚','🐢'],
+      icons: ['🎉','✨','❤️','⭐','🎊','🐢'],
       heroLine: '🎉 🐢 ❤️ 🐢 🎉',
       title: 'Best Man unlocked!',
       thankYou: 'Thank you, Joe.',
       relationship: 'You have always been an amazing brother.',
       memoryOne: 'From family holidays and old photos...',
       memoryTwo: 'to all the memories still to come...',
-      weddingLine: 'I honestly could not imagine our wedding day without you standing beside me.',
-      achievements: ['Beach Spotter','Memory Master','Turtle Navigator','Beachcomber'],
+      weddingLine: 'I honestly could not imagine our wedding day without you.',
+      achievements: ['Animal Spotter','Memory Master','Turtle Guide','Shell Collector'],
       unlocked: 'Best Man Unlocked'
     }
   };
@@ -136,8 +136,25 @@
     };
   }
 
+  function keepExperiencesEqual() {
+    if (who !== 'joe') return;
+
+    document.querySelectorAll('#thanks h2').forEach(title => {
+      if (title.textContent.trim() === 'Best Man mission accepted!') {
+        title.textContent = 'Mission accepted!';
+      }
+    });
+
+    document.querySelectorAll('#thanks p').forEach(paragraph => {
+      if (paragraph.textContent.includes('standing beside me')) {
+        paragraph.textContent = 'I honestly could not imagine the day without you.';
+      }
+    });
+  }
+
   const observer = new MutationObserver(() => {
     document.querySelectorAll('.photo-frame').forEach(preparePhoto);
+    keepExperiencesEqual();
 
     const yes = document.querySelector('#yes');
     if (yes && !yes.dataset.polishBound) {
@@ -148,4 +165,5 @@
 
   observer.observe(document.documentElement, { childList: true, subtree: true });
   document.querySelectorAll('.photo-frame').forEach(preparePhoto);
+  keepExperiencesEqual();
 })();
