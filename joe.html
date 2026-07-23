@@ -3,12 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#55bfd8" />
+  <meta name="theme-color" content="#dff4f6" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>Joe's Turtle Quest</title>
-  <link rel="stylesheet" href="game-2026.css?v=6" />
-  <link rel="stylesheet" href="game-polish-v2.css?v=3" />
-  <link rel="stylesheet" href="joe-theme.css?v=1" />
+  <title>Wedding Adventure</title>
+  <link rel="stylesheet" href="game-2026.css?v=5" />
+  <link rel="stylesheet" href="game-polish-v2.css?v=2" />
   <script>
     const joeUrl = new URL(window.location.href);
     if (joeUrl.searchParams.get('person') !== 'joe') {
@@ -17,18 +16,24 @@
     }
   </script>
 </head>
-<body class="joe-theme">
+<body>
   <main class="app" aria-live="polite">
     <header class="topbar">
-      <div id="player">Joe's Special Mission</div>
+      <div id="player">Special Mission</div>
       <div id="progress">Ready</div>
     </header>
-    <div class="track" aria-hidden="true"><span id="bar"></span></div>
+
+    <div class="track" aria-hidden="true">
+      <span id="bar"></span>
+    </div>
+
     <section class="card" id="screen"></section>
   </main>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="game-photo-v1.js?v=5"></script>
+
+  <script src="game-photo-v1.js?v=2"></script>
   <script src="photo-path-fix.js?v=1"></script>
-  <script src="game-polish-v2.js?v=4"></script>
+  <script src="game-polish-v2.js?v=2"></script>
 </body>
 </html>
