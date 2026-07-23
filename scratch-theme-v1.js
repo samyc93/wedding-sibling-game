@@ -2,6 +2,21 @@
   const who = (new URLSearchParams(location.search).get('person') || 'hannah').toLowerCase();
   if (who !== 'hannah' && who !== 'joe') return;
 
+  function hideCompletedScratch() {
+    const canvas = document.querySelector('#canvas');
+    const yes = document.querySelector('#yes');
+    if (!canvas || !yes || yes.hidden) return;
+
+    canvas.style.transition = 'opacity .3s ease';
+    canvas.style.opacity = '0';
+    canvas.style.pointerEvents = 'none';
+    canvas.setAttribute('aria-hidden', 'true');
+
+    setTimeout(() => {
+      if (!yes.hidden) canvas.style.visibility = 'hidden';
+    }, 320);
+  }
+
   function paintScratchTheme() {
     const canvas = document.querySelector('#canvas');
     if (!canvas || canvas.dataset.themePainted) return;
@@ -65,7 +80,11 @@
 
   function prepareText() {
     const canvas = document.querySelector('#canvas');
-    if (!canvas || canvas.dataset.textPrepared) return;
+    if (!canvas || canvas.dataset.textPrepared) {
+      hideCompletedScratch();
+      return;
+    }
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.font = '600 20px system-ui, sans-serif';
@@ -73,9 +92,20 @@
     ctx.textBaseline = 'middle';
     canvas.dataset.textPrepared = 'true';
     paintScratchTheme();
+    hideCompletedScratch();
   }
 
-  const observer = new MutationObserver(prepareText);
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+  const observer = new MutationObserver(() => {
+    prepareText();
+    hideCompletedScratch();
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['hidden']
+  });
+
   prepareText();
 })();
